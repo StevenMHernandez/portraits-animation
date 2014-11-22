@@ -1,0 +1,4 @@
+.DS_Store/
+.idea/
+/uploads
+node_modules/
