@@ -1,5 +1,5 @@
 {
-  "name": "face-animation-test-1",
+  "name": "portraits-animation",
   "version": "0.0.1",
   "description": "An animation for input faces as well as input?",
   "dependencies": {
@@ -8,6 +8,7 @@
     "fs-extra": "^0.12.0",
     "gm": "^1.17.0",
     "mongodb": "^1.4.22",
+    "mongoose": "^1.8.4",
     "socket.io": "^1.2.0"
   }
 }

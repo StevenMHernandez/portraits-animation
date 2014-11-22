@@ -7,8 +7,17 @@ var formidable = require('formidable');
 var util = require('util');
 var fs = require('fs-extra');
 var gm = require('gm');
+var mongoose = require('mongoose');
 
-server.listen(3000);
+
+mongoose.connect('mongodb://localhost/test');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+    console.log('you are connected');
+});
+
+server.listen(701);
 var new_location = 'uploads/';
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
