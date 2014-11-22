@@ -7,8 +7,6 @@
     "formidable": "^1.0.15",
     "fs-extra": "^0.12.0",
     "gm": "^1.17.0",
-    "mongodb": "^1.4.22",
-    "mongoose": "^1.8.4",
     "socket.io": "^1.2.0"
   }
 }
