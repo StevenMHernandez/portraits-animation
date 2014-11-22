@@ -8,7 +8,7 @@ var util = require('util');
 var fs = require('fs-extra');
 var gm = require('gm');
 
-server.listen(3001);
+server.listen(3003);
 var new_location = 'uploads/';
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
