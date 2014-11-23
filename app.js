@@ -6,7 +6,7 @@ var io = require('socket.io')(server);
 var formidable = require('formidable');
 var util = require('util');
 var fs = require('fs-extra');
-var gm = require('gm');
+var gm = require('gm').subClass({ imageMagick: true });
 
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(':memory:');
