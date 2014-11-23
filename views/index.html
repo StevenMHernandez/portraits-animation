@@ -9,7 +9,7 @@
 <body>
 <form action="/upload" enctype="multipart/form-data" method="POST">
     <input multiple="multiple" name="upload" type="file"/><br><br>
-    <input type="submit" value="Upload"/>
+    <input type="submit" value="Upload" accept="image/*" id="capture" capture="camera"/>
 </form>
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>

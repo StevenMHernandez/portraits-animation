@@ -2,33 +2,25 @@ var express = require('express');
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
 var formidable = require('formidable');
 var util = require('util');
 var fs = require('fs-extra');
 var gm = require('gm').subClass({imageMagick: true});
-
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
-//TODO change from :memory: ??
+var db = new sqlite3.Database('db/images.db');
 
-//db.serialize(function () {
-//    db.run("CREATE TABLE lorem (info TEXT)");
-//
-//    var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-//    for (var i = 0; i < 10; i++) {
-//        stmt.run("dd " + i);
-//    }
-//    stmt.finalize();
-//
-//    db.each("SELECT rowid AS id, info FROM lorem", function (err, row) {
-//        console.log(row.id + ": " + row.info);
-//    });
-//});
-//
-//db.close();
+db.serialize(function () {
+    db.run("CREATE TABLE IF NOT EXISTS images (" +
+    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    "uri TEXT, " +
+    "ip TEXT)");
+});
+
 var imageCounter = 0;
-//TODO replace with db count
+db.each("SELECT rowid AS id, info FROM images", function (err, row) {
+    imageCounter++;
+});
+//db.close();
 
 server.listen(3003);
 var new_location = 'uploads/';
@@ -37,11 +29,11 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.get('/', function (req, res) {
 
     res.sendfile(__dirname + '/views/index.html');
+    console.log(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
 });
 
 app.get('/animation', function (req, res) {
     res.sendfile(__dirname + '/views/animation.html');
-    //TODO add counter number some how.
 });
 
 app.post('/upload', function (req, res) {
@@ -75,15 +67,21 @@ app.post('/upload', function (req, res) {
                                     console.log(files['upload']);
                                     res.sendfile(new_location + imageCounter + file_type);
                                     animation.emit('newImage', {image: new_location + imageCounter + file_type});
+                                    //add to db
+                                    db.serialize(function () {
+                                        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+                                        db.run("INSERT INTO images ('uri', 'ip') VALUES ('" + new_location + imageCounter + file_type + "','" + ip + "')");
+                                    });
                                     //TODO no need to send this information though. It could be image: "added"
                                     imageCounter++;
+                                    //TODO send file to
                                 }
                             }
                         );
                     }
                 });
             } else {
-                res.end('only jpeg, jpg and png');
+                res.end('only .jpeg, .jpg and .png.');
                 //TODO send back to /
             }
         }
@@ -93,8 +91,9 @@ app.post('/upload', function (req, res) {
 
 var animation = io.of('/animation');
 io.on('connection', function (socket) {
-    socket.on('my other event', function (data) {
+    socket.on('getRandom', function (data) {
         console.log(data);
+        animation.emit('newImage', {image: new_location + imageCounter + file_type});
     });
 
     animation.on('connection', function (socket) {
