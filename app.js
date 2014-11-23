@@ -72,11 +72,11 @@ app.post('/upload', function (req, res) {
                                 if (err) {
                                     console.error(err);
                                 } else {
-                                    imageCounter++;
                                     console.log(files['upload']);
                                     res.sendfile(new_location + imageCounter + file_type);
                                     animation.emit('newImage', {image: new_location + imageCounter + file_type});
                                     //TODO no need to send this information though. It could be image: "added"
+                                    imageCounter++;
                                 }
                             }
                         );
