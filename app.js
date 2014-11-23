@@ -34,8 +34,6 @@ server.listen(3003);
 var new_location = 'uploads/';
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-console.log(__dirname);
-
 app.get('/', function (req, res) {
 
     res.sendfile(__dirname + '/views/index.html');
@@ -64,7 +62,6 @@ app.post('/upload', function (req, res) {
                     if (err) {
                         console.log('gm::' + err);
                     } else {
-                        console.log(value);
                         var max, min;
                         value.width > value.height ? (max = value.width, min = value.height) : (max = value.height, min = value.width);
                         gm(temp_path)
@@ -78,7 +75,8 @@ app.post('/upload', function (req, res) {
                                     imageCounter++;
                                     console.log(files['upload']);
                                     res.sendfile(new_location + imageCounter + file_type);
-                                    animation.emit('news', {image: new_location + files['upload']['name']})
+                                    animation.emit('newImage', {image: new_location + imageCounter + file_type});
+                                    //TODO no need to send this information though. It could be image: "added"
                                 }
                             }
                         );
@@ -95,7 +93,6 @@ app.post('/upload', function (req, res) {
 
 var animation = io.of('/animation');
 io.on('connection', function (socket) {
-    socket.emit('news', {hello: 'world'});
     socket.on('my other event', function (data) {
         console.log(data);
     });
