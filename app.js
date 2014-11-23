@@ -20,6 +20,7 @@ var imageCounter = 0;
 db.each("SELECT rowid AS id, info FROM images", function (err, row) {
     imageCounter++;
 });
+console.log('There were ' + imagesCounter + ' images already available in the database.');
 //db.close();
 
 server.listen(3003);
@@ -29,7 +30,6 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.get('/', function (req, res) {
 
     res.sendfile(__dirname + '/views/index.html');
-    console.log(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
 });
 
 app.get('/animation', function (req, res) {
@@ -64,7 +64,6 @@ app.post('/upload', function (req, res) {
                                 if (err) {
                                     console.error(err);
                                 } else {
-                                    console.log(files['upload']);
                                     res.sendfile(new_location + imageCounter + file_type);
                                     animation.emit('newImage', {image: new_location + imageCounter + file_type});
                                     //add to db
@@ -92,7 +91,6 @@ app.post('/upload', function (req, res) {
 var animation = io.of('/animation');
 io.on('connection', function (socket) {
     socket.on('getRandom', function (data) {
-        console.log(data);
         animation.emit('newImage', {image: new_location + imageCounter + file_type});
     });
 
