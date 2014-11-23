@@ -64,7 +64,7 @@ app.post('/upload', function (req, res) {
                     if (err) {
                         console.log('gm::' + err);
                     } else {
-                        console.log(values);
+                        console.log(value);
                         var max, min;
                         value.width > value.height ? (max = value.width, min = value.height) : (max = value.height, min = value.width);
                         gm(temp_path)
