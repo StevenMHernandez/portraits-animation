@@ -47,6 +47,9 @@ app.get('/animation', function (req, res) {
 app.post('/upload', function (req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
+        if(err){
+            console.log('formParseError::' + err);
+        }
         var temp_path = files['upload'].path;
         var file_type = files['upload'].type;
 
@@ -59,14 +62,11 @@ app.post('/upload', function (req, res) {
             }
             gm(temp_path).size(function (err, value) {
                 if(err){
-                    console.log(err);
+                    console.log('gm::' + err);
                 }
                 console.log(value);
                 var max, min;
                 value.width > value.height ? (max = value.width, min = value.height) : (max = value.height, min = value.width);
-                //console.log((value.width - min) / 2);
-                //console.log((value.height - min) / 2);
-                //console.log(min + '.' + max);
                 gm(temp_path)
                     .crop(min, min, Math.round((value.width - min) / 2), Math.round((value.height - min) / 2))
                     .sample(999)
