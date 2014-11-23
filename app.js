@@ -58,6 +58,9 @@ app.post('/upload', function (req, res) {
                 file_type = '.png';
             }
             gm(temp_path).size(function (err, value) {
+                if(err){
+                    console.log(err);
+                }
                 console.log(value);
                 var max, min;
                 value.width > value.height ? (max = value.width, min = value.height) : (max = value.height, min = value.width);
