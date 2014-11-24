@@ -17,10 +17,9 @@ db.serialize(function () {
 });
 
 var imageCounter = 0;
-db.each("SELECT rowid AS id, info FROM images", function (err, row) {
+db.each("SELECT id, uri FROM images", function (err, row) {
     imageCounter++;
 });
-console.log('There were ' + imagesCounter + ' images already available in the database.');
 //db.close();
 
 server.listen(3003);
@@ -28,7 +27,6 @@ var new_location = 'uploads/';
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.get('/', function (req, res) {
-
     res.sendfile(__dirname + '/views/index.html');
 });
 
@@ -60,6 +58,7 @@ app.post('/upload', function (req, res) {
                             .crop(min, min, Math.round((value.width - min) / 2), Math.round((value.height - min) / 2))
                             .sample(999)
                             .resize(450, 450)
+                            //.setFormat("jpg")
                             .write(new_location + imageCounter + file_type, function (err) {
                                 if (err) {
                                     console.error(err);
@@ -90,13 +89,18 @@ app.post('/upload', function (req, res) {
 
 var animation = io.of('/animation');
 io.on('connection', function (socket) {
+    console.log('There were ' + imageCounter + ' images already available in the database.');
+    socket.on('getImageCount', function () {
+        console.log('getImageCount ran');
+        socket.emit('imageCount', {imageCount: imageCounter});
+    });
     socket.on('getRandom', function (data) {
-        animation.emit('newImage', {image: new_location + imageCounter + file_type});
+        db.each("SELECT * FROM images WHERE id=" + Math.round(Math.random()*imageCounter), function (err, row) {
+            animation.emit('newImage', {id: row.id, uri: row.uri});
+        });
     });
 
-    animation.on('connection', function (socket) {
+    socket.on('connection', function (socket) {
         console.log('someone connected');
     });
-    animation.emit('hi', 'everyone!');
 });
-

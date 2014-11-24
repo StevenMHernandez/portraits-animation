@@ -21,15 +21,27 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    $(function(){
+        setInterval(function(){
+            socket.emit('getRandom');
+        }, 3600)
+    });
+    var imageCount;
     var socket = io.connect('http://localhost');
-    var socket = io('/animation');
-    socket.on('newImage', function (data) {
-        $('img:eq(' + Math.round(Math.random() * 9) + ')').attr('src', '/' + data['image']);
+    var animation = io('/animation');
+    socket.emit('getImageCount',{blank: false});
+
+    socket.on('imageCount', function (data) {
+        console.log(data.imageCount);
     });
 
-    socket.on('getRandom', function (data) {
-        socket.emit('getRandom', {getRandom: true});
+    animation.on('newImage', function (data) {
+        placeImage(data['uri']);
     });
+
+    function placeImage(uri){
+        $('img:eq(' + Math.round(Math.random() * 9) + ')').attr('src', '/' + uri);
+    }
 </script>
 
 </body>
