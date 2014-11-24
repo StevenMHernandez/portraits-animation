@@ -19,7 +19,7 @@ db.serialize(function () {
     "timestamp DATE DEFAULT CURRENT_TIMESTAMP)");
 });
 
-var imageCount;
+var imageCounter;
 imageCounter = 0;
 
 server.listen(3003);
@@ -93,6 +93,11 @@ app.post('/upload', function (req, res) {
 var animation = io.of('/animation');
 io.on('connection', function (socket) {
     socket.on('getImageCount', function () {
+        imageCounter = 0;
+        db.each("SELECT * FROM images", function (err, row) {
+            console.log(row);
+            imageCounter++;
+        });
         socket.emit('imageCount', {imageCount: imageCounter});
     });
 });
