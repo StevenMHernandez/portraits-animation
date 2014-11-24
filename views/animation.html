@@ -21,16 +21,16 @@
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    var imageCount;
     $(function(){
+        socket.emit('getImageCount',{blank: false});
         setInterval(function(){
             getRandom();
             if(imageCount == 0){
                 socket.emit('getImageCount',{blank: false});
             }
         }, 3600);
-        socket.emit('getImageCount',{blank: false});
     });
-    var imageCount;
     var socket = io.connect('http://localhost');
     var animation = io('/animation');
 
@@ -44,7 +44,6 @@
     });
 
     function getRandom(){
-
         var random = Math.floor(Math.random()*imageCount);
         console.log(imageCount, random);
         if(random >= 0){
