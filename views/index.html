@@ -3,24 +3,30 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Self Portraits Animation</title>
-    <style>
-    </style>
+    <link href="/assets/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<img id="upload" src="http://placehold.it/450x450&text=upload img"/>
+<span id="ie">
 <form action="/upload" enctype="multipart/form-data" method="POST">
-    <input multiple="multiple" name="upload" type="file" accept="image/*" id="capture" capture="camera"/><br><br>
+    <input multiple="multiple" name="upload" id="fileLoad" type="file" accept="image/*" id="capture"
+           capture="camera"/><br><br>
     <input type="submit" value="Upload"/>
 </form>
+</span>
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-//    var socket = io.connect('http://localhost');
-//    socket.on('news', function (data) {
-//        console.log(data);
-//        socket.emit('my other event', {my: 'data'});
-//    });
+    $('#upload').click(function () {
+        document.getElementById('fileLoad').click();
+    });
+    //    var socket = io.connect('http://localhost');
+    //    socket.on('news', function (data) {
+    //        console.log(data);
+    //        socket.emit('my other event', {my: 'data'});
+    //    });
 </script>
 
 </body>

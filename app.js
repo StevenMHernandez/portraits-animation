@@ -23,6 +23,7 @@ var imageCount;
 
 server.listen(3003);
 var new_location = 'uploads/';
+app.use('/assets', express.static(__dirname + '/assets'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.get('/', function (req, res) {
