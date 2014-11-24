@@ -1,6 +1,7 @@
 var express = require('express');
 var app = require('express')();
-var server = require('http').Server(app);
+var http = require('http');
+var server = http.Server(app);
 var io = require('socket.io')(server);
 var formidable = require('formidable');
 var util = require('util');
@@ -14,6 +15,7 @@ db.serialize(function () {
     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
     "uri TEXT, " +
     "ip TEXT," +
+    "location TEXT," +
     "timestamp DATE DEFAULT CURRENT_TIMESTAMP)");
 });
 
@@ -31,7 +33,8 @@ app.get('/', function (req, res) {
 
 app.get('/animation', function (req, res) {
     imageCounter = 0;
-    db.each("SELECT id FROM images", function (err, row) {
+    db.each("SELECT * FROM images", function (err, row) {
+        console.log(row);
         imageCounter++;
     });
     res.sendfile(__dirname + '/views/animation.html');
@@ -69,7 +72,11 @@ app.post('/upload', function (req, res) {
                                     //add to db
                                     db.serialize(function () {
                                         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-                                        db.run("INSERT INTO images ('uri', 'ip') VALUES ('" + new_location + imageCounter + ".jpg','" + ip + "')");
+                                        var location = http.get('http://freegeoip.net/json/' + ip);
+                                        var latitude = location['latitude'];
+                                        var longitude = location['longitude'];
+                                        var lat_long = latitude + ',' + longitude;
+                                        db.run("INSERT INTO images ('uri', 'ip','location') VALUES ('" + new_location + imageCounter + ".jpg','" + ip + "', '" + lat_long + "')");
                                     });
                                     imageCounter++;
                                     //TODO send user to Thank you location? or animation?

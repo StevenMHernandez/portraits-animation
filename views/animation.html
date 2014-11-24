@@ -24,6 +24,9 @@
     $(function(){
         setInterval(function(){
             getRandom();
+            if(imageCount == 0){
+                socket.emit('getImageCount',{blank: false});
+            }
         }, 3600);
         socket.emit('getImageCount',{blank: false});
     });
