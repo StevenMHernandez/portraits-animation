@@ -8,7 +8,7 @@ var util = require('util');
 var fs = require('fs-extra');
 var gm = require('gm').subClass({imageMagick: true});
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(__dirname + '/db/images.db');
+var db = new sqlite3.Database('db/images.db');
 
 db.serialize(function () {
     db.run("CREATE TABLE IF NOT EXISTS images (" +
