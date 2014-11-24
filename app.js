@@ -14,12 +14,11 @@ db.serialize(function () {
     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
     "uri TEXT, " +
     "ip TEXT," +
-    "date TEXT)");
-    //TODO setup date
+    "timestamp DATE DEFAULT CURRENT_TIMESTAMP)");
 });
 
 var imageCount;
-//db.close();
+imageCounter = 0;
 
 server.listen(3003);
 var new_location = 'uploads/';
@@ -32,7 +31,7 @@ app.get('/', function (req, res) {
 
 app.get('/animation', function (req, res) {
     imageCounter = 0;
-    db.each("SELECT id, uri FROM images", function (err, row) {
+    db.each("SELECT id FROM images", function (err, row) {
         imageCounter++;
     });
     res.sendfile(__dirname + '/views/animation.html');
@@ -63,14 +62,17 @@ app.post('/upload', function (req, res) {
                                     console.error(err);
                                 } else {
                                     res.sendfile(new_location + imageCounter + '.jpg');
-                                    animation.emit('newImage', {uri: new_location + imageCounter + '.jpg', imageCount: imageCounter});
+                                    animation.emit('newImage', {
+                                        uri: new_location + imageCounter + '.jpg',
+                                        imageCount: imageCounter
+                                    });
                                     //add to db
                                     db.serialize(function () {
                                         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
                                         db.run("INSERT INTO images ('uri', 'ip') VALUES ('" + new_location + imageCounter + ".jpg','" + ip + "')");
                                     });
                                     imageCounter++;
-                                    //TODO send file to
+                                    //TODO send user to Thank you location? or animation?
                                 }
                             }
                         );
