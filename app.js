@@ -72,11 +72,7 @@ app.post('/upload', function (req, res) {
                                     //add to db
                                     db.serialize(function () {
                                         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-                                        var location = http.get('http://freegeoip.net/json/' + ip);
-                                        var latitude = location['latitude'];
-                                        var longitude = location['longitude'];
-                                        var lat_long = latitude + ',' + longitude;
-                                        db.run("INSERT INTO images ('uri', 'ip','location') VALUES ('" + new_location + imageCounter + ".jpg','" + ip + "', '" + lat_long + "')");
+                                        db.run("INSERT INTO images ('uri', 'ip') VALUES ('" + new_location + imageCounter + ".jpg','" + ip + "')");
                                     });
                                     imageCounter++;
                                     //TODO send user to Thank you location? or animation?
