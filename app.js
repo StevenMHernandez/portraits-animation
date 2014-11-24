@@ -13,12 +13,15 @@ db.serialize(function () {
     db.run("CREATE TABLE IF NOT EXISTS images (" +
     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
     "uri TEXT, " +
-    "ip TEXT)");
+    "ip TEXT," +
+    "date TEXT)");
+    //TODO setup date
 });
 
 var imageCounter = 0;
 db.each("SELECT id, uri FROM images", function (err, row) {
     imageCounter++;
+    //console.log(imageCounter);
 });
 //db.close();
 
@@ -84,7 +87,6 @@ app.post('/upload', function (req, res) {
 var animation = io.of('/animation');
 io.on('connection', function (socket) {
     socket.on('getImageCount', function () {
-        console.log('getImageCount ran');
         socket.emit('imageCount', {imageCount: imageCounter});
     });
 });

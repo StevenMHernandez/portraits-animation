@@ -38,14 +38,14 @@
 
     animation.on('newImage', function (data) {
         placeImage(data['uri']);
-        imageCount = data['imageCount'];
-        console.log(data);
+        imageCount = data['imageCount'] + 1;
     });
 
     function getRandom(){
-        console.log(imageCount);
         var random = Math.round(Math.random()*imageCount-1);
+        console.log(imageCount, random);
         if(random >= 0){
+            console.log('nothnig');
             placeImage('uploads/' + random + '.jpg');
         }
     }
