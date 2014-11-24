@@ -33,7 +33,6 @@
 
     socket.on('imageCount', function (data) {
         imageCount = data.imageCount;
-        console.log(data.imageCount);
     });
 
     animation.on('newImage', function (data) {
@@ -42,10 +41,10 @@
     });
 
     function getRandom(){
+
         var random = Math.round(Math.random()*imageCount-1);
         console.log(imageCount, random);
         if(random >= 0){
-            console.log('nothnig');
             placeImage('uploads/' + random + '.jpg');
         }
     }

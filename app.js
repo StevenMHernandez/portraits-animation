@@ -18,11 +18,7 @@ db.serialize(function () {
     //TODO setup date
 });
 
-var imageCounter = 0;
-db.each("SELECT id, uri FROM images", function (err, row) {
-    imageCounter++;
-    //console.log(imageCounter);
-});
+var imageCount;
 //db.close();
 
 server.listen(3003);
@@ -34,6 +30,10 @@ app.get('/', function (req, res) {
 });
 
 app.get('/animation', function (req, res) {
+    imageCounter = 0;
+    db.each("SELECT id, uri FROM images", function (err, row) {
+        imageCounter++;
+    });
     res.sendfile(__dirname + '/views/animation.html');
 });
 
