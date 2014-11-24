@@ -45,7 +45,7 @@
 
     function getRandom(){
 
-        var random = Math.round(Math.random()*imageCount-1);
+        var random = Math.floor(Math.random()*imageCount);
         console.log(imageCount, random);
         if(random >= 0){
             placeImage('uploads/' + random + '.jpg');
