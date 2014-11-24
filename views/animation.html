@@ -23,24 +23,37 @@
 <script>
     $(function(){
         setInterval(function(){
-            socket.emit('getRandom');
-        }, 3600)
+            getRandom();
+        }, 3600);
+        socket.emit('getImageCount',{blank: false});
     });
     var imageCount;
     var socket = io.connect('http://localhost');
     var animation = io('/animation');
-    socket.emit('getImageCount',{blank: false});
 
     socket.on('imageCount', function (data) {
+        imageCount = data.imageCount;
         console.log(data.imageCount);
     });
 
     animation.on('newImage', function (data) {
         placeImage(data['uri']);
+        imageCount = data['imageCount'];
+        console.log(data);
     });
 
+    function getRandom(){
+        console.log(imageCount);
+        var random = Math.round(Math.random()*imageCount-1);
+        if(random >= 0){
+            placeImage('uploads/' + random + '.jpg');
+        }
+    }
+
     function placeImage(uri){
-        $('img:eq(' + Math.round(Math.random() * 9) + ')').attr('src', '/' + uri);
+        if(uri){
+            $('img:eq(' + Math.round(Math.random() * 9) + ')').attr('src', '/' + uri);
+        }
     }
 </script>
 
