@@ -3,34 +3,52 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Self Portraits Animation</title>
-    <style>
-    </style>
+    <link href="/assets/style.css" rel="stylesheet" type="text/css"/>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:900' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="/assets/logo.png">
+    <link href="/assets/logo.png" rel="apple-touch-icon-precomposed"/>
 </head>
-<body>
-<img/>
-<img/>
-<img/>
-<img/>
-<img/>
-<img/>
-<img/>
-<img/>
-<img/>
+<body id="animation">
+<canvas width="450px" height="450px"></canvas>
+<span id="ie">
+    <img/>
+    <img/>
+    <img/>
+    <img/>
+    <img/>
+    <img/>
+    <img/>
+    <img/>
+    <img/>
+</span>
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/assets/js/animation.js"></script>
 <script>
     var imageCount;
-    $(function(){
+    $(function () {
         //TODO load an image into each
-        socket.emit('getImageCount',{blank: false});
-        setInterval(function(){
+        socket.emit('getImageCount', {blank: false});
+        setInterval(function () {
             getRandom();
-            if(imageCount == 0){
-                socket.emit('getImageCount',{blank: false});
+            if (imageCount == 0) {
+                socket.emit('getImageCount', {blank: false});
             }
         }, 3600);
+        var i = 0;
+        var load = setInterval(function () {
+            getRandom();
+            if (imageCount == 0) {
+                socket.emit('getImageCount', {blank: false});
+            }
+            i++;
+            if (i == 27) {
+                clearInterval(load);
+            }
+        }, 90);
+
     });
     var socket = io.connect('/');
     var animation = io('/animation');
@@ -44,16 +62,16 @@
         imageCount = data['imageCount'] + 1;
     });
 
-    function getRandom(){
-        var random = Math.floor(Math.random()*imageCount);
+    function getRandom() {
+        var random = Math.round(Math.random() * imageCount);
         console.log(imageCount, random);
-        if(random >= 0){
+        if (random >= 0) {
             placeImage('uploads/' + random + '.jpg');
         }
     }
 
-    function placeImage(uri){
-        if(uri){
+    function placeImage(uri) {
+        if (uri) {
             $('img:eq(' + Math.round(Math.random() * 9) + ')').attr('src', '/' + uri);
         }
     }

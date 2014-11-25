@@ -32,11 +32,6 @@ app.get('/', function (req, res) {
 });
 
 app.get('/animation', function (req, res) {
-    imageCounter = 0;
-    db.each("SELECT * FROM images", function (err, row) {
-        console.log(row);
-        imageCounter++;
-    });
     res.sendfile(__dirname + '/views/animation.html');
 });
 
@@ -64,7 +59,8 @@ app.post('/upload', function (req, res) {
                                 if (err) {
                                     console.error(err);
                                 } else {
-                                    res.sendfile(new_location + imageCounter + '.jpg');
+                                    res.sendfile(__dirname + '/views/uploaded.html');
+                                    //res.sendfile(new_location + imageCounter + '.jpg');
                                     animation.emit('newImage', {
                                         uri: new_location + imageCounter + '.jpg',
                                         imageCount: imageCounter
@@ -75,7 +71,6 @@ app.post('/upload', function (req, res) {
                                         db.run("INSERT INTO images ('uri', 'ip') VALUES ('" + new_location + imageCounter + ".jpg','" + ip + "')");
                                     });
                                     imageCounter++;
-                                    //TODO send user to Thank you location? or animation?
                                 }
                             }
                         );
@@ -83,7 +78,6 @@ app.post('/upload', function (req, res) {
                 });
             } else {
                 res.sendfile(__dirname + '/views/error.html');
-                //TODO send back to /
             }
         }
     });
@@ -97,7 +91,7 @@ io.on('connection', function (socket) {
         db.each("SELECT * FROM images", function (err, row) {
             console.log(row);
             imageCounter++;
+            socket.emit('imageCount', {imageCount: imageCounter});
         });
-        socket.emit('imageCount', {imageCount: imageCounter});
     });
 });

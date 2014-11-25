@@ -1,26 +1,49 @@
-body{
-  font-size:36px;
+@size : 450px;
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-size: 36px;
+  line-height: 54px;
   font-family: "Raleway", sans-serif;
   letter-spacing: .9px;
+  &#animation {
+    background: #000;
+  }
 }
 
 img {
   display: block;
-  margin: 0 auto;
+  margin: 9px auto 0;
   max-width: 100%;
 }
 
 div {
-  width: 450px;
+  //  text-align: center;
+  width: @size;
   margin: 0 auto;
   max-width: 100%;
-  padding:9px 0;
+  padding: 9px 0;
+}
+
+small {
+  font-size: 27px;
+}
+
+canvas {
+  //  width: @size;
+  //  height: @size;
+  display: block;
+  margin: 0 auto;
+  height: 100%;
 }
 
 #ie {
-  display:none;
+  display: none;
 }
 
-.upload{
+.upload {
   cursor: pointer;
 }
