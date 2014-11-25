@@ -5,8 +5,8 @@
     <title>Self Portraits Animation</title>
     <link href="/assets/style.css" rel="stylesheet" type="text/css"/>
     <link href='http://fonts.googleapis.com/css?family=Raleway:900' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="/assets/logo.png">
-    <link href="/assets/logo.png" rel="apple-touch-icon-precomposed"/>
+    <link rel="shortcut icon" href="/assets/icon.png">
+    <link href="/assets/icon.png" rel="apple-touch-icon-precomposed"/>
 </head>
 <body id="animation">
 <canvas width="450px" height="450px"></canvas>
@@ -29,7 +29,6 @@
 <script>
     var imageCount;
     $(function () {
-        //TODO load an image into each
         socket.emit('getImageCount', {blank: false});
         setInterval(function () {
             getRandom();
@@ -61,20 +60,6 @@
         placeImage(data['uri']);
         imageCount = data['imageCount'] + 1;
     });
-
-    function getRandom() {
-        var random = Math.floor(Math.random() * imageCount);
-        console.log(imageCount, random);
-        if (random >= 0) {
-            placeImage('uploads/' + random + '.jpg');
-        }
-    }
-
-    function placeImage(uri) {
-        if (uri) {
-            $('img:eq(' + Math.round(Math.random() * 9) + ')').attr('src', '/' + uri);
-        }
-    }
 </script>
 
 </body>
