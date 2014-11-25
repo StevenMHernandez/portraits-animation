@@ -3,5 +3,3 @@
 uploads/*
 node_modules/
 db/
-
-!.gitkeep

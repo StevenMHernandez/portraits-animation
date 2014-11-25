@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self Portraits Animation</title>
+    <title>Upload your portraits.</title>
     <link href="/assets/style.css" rel="stylesheet" type="text/css"/>
     <link href='http://fonts.googleapis.com/css?family=Raleway:900,600' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" href="/assets/icon.png">
@@ -11,7 +11,8 @@
 <body>
 <img class="upload" src="/assets/icon.png"/>
 <div class="upload">Upload your portrait.</div>
-<div><small>Center your image</small></div>
+<div><small>Images will be compiled into an automatically & randomly generating continuous animation.</small></div>
+<div><small>This animation will be released at a future date.</small></div>
 
 <span id="ie">
     <form action="/upload" enctype="multipart/form-data" method="POST">
@@ -21,9 +22,7 @@
     </form>
 </span>
 
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-<script src="/socket.io/socket.io.js"></script>
 <script>
     $('.upload').click(function () {
         document.getElementById('fileLoad').click();

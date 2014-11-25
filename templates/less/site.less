@@ -1,7 +1,11 @@
 @size : 450px;
 html, body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
+}
+
+html{
+  border-bottom: 1px solid #6cc;
 }
 
 body {
@@ -12,6 +16,7 @@ body {
   letter-spacing: .9px;
   &#animation {
     background: #000;
+    height: 100%;
   }
 }
 
@@ -26,7 +31,9 @@ div {
   width: @size;
   margin: 0 auto;
   max-width: 100%;
-  padding: 9px 0;
+  padding: 9px 9px 27px;
+  box-sizing: border-box;
+
 }
 
 small {
