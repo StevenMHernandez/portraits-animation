@@ -82,7 +82,7 @@ app.post('/upload', function (req, res) {
                     }
                 });
             } else {
-                res.end('only .jpeg, .jpg and .png.');
+                res.sendfile(__dirname + '/views/error.html');
                 //TODO send back to /
             }
         }
