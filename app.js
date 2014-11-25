@@ -35,6 +35,10 @@ app.get('/animation', function (req, res) {
     res.sendfile(__dirname + '/views/animation.html');
 });
 
+app.get('/uploaded', function (req, res) {
+    res.sendfile(__dirname + '/views/uploaded.html');
+});
+
 app.post('/upload', function (req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
@@ -59,7 +63,7 @@ app.post('/upload', function (req, res) {
                                 if (err) {
                                     console.error(err);
                                 } else {
-                                    res.sendfile(__dirname + '/views/uploaded.html');
+                                    res.redirect('/uploaded?img=' + imageCounter + '.jpg');
                                     //res.sendfile(new_location + imageCounter + '.jpg');
                                     animation.emit('newImage', {
                                         uri: new_location + imageCounter + '.jpg',

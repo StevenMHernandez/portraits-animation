@@ -5,12 +5,28 @@
     <title>Self Portraits Animation</title>
     <link href="/assets/style.css" rel="stylesheet" type="text/css"/>
     <link href='http://fonts.googleapis.com/css?family=Raleway:900' rel='stylesheet' type='text/css'>
-    <link rel="shortcut icon" href="/assets/logo.png">
-    <link href="/assets/logo.png" rel="apple-touch-icon-precomposed"/>
+    <link rel="shortcut icon" href="/assets/icon.png">
+    <link href="/assets/icon.png" rel="apple-touch-icon-precomposed"/>
 </head>
 <body>
 <img src="/assets/icon-check.png"/>
 <div>Your image was uploaded.</div>
-<div>The animation is coming soon.</div>
+<div><small>The animation is coming soon.</small></div>
+<img id="uploadedImage"/>
 </body>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    $('#uploadedImage').attr('src', '/uploads/' + getQueryVariable('img'))
+</script>
 </html>
