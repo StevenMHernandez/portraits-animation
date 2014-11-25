@@ -36,7 +36,7 @@
             if (imageCount == 0) {
                 socket.emit('getImageCount', {blank: false});
             }
-        }, 3600);
+        }, 1800);
         var i = 0;
         var load = setInterval(function () {
             getRandom();
@@ -63,7 +63,7 @@
     });
 
     function getRandom() {
-        var random = Math.round(Math.random() * imageCount);
+        var random = Math.floor(Math.random() * imageCount);
         console.log(imageCount, random);
         if (random >= 0) {
             placeImage('uploads/' + random + '.jpg');
