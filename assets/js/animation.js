@@ -7,7 +7,7 @@ setInterval(function () {
     var x = Math.random()*450;
     var width = Math.random() * (450 - x);
     ctx.drawImage(img,x,0,width,450,x+(Math.random()*99)-45,0,width+(Math.random()*99)-45,450);
-}, 9);
+}, 45);
 
 function getRandom() {
     var random = Math.floor(Math.random() * imageCount);
