@@ -10,16 +10,20 @@
 </head>
 <body>
 <img class="upload" src="/assets/icon.png"/>
+
 <div class="upload">Upload your portrait.</div>
+
+<div>
+    <form action="/upload" enctype="multipart/form-data" method="POST">
+        <input name="upload" id="fileLoad" type="file"/>
+        <span id="ie">
+            <input type="submit" value="Upload"/>
+        </span>
+    </form>
+</div>
+
 <div><small>Images will be compiled into an automatically & randomly generating continuous animation.</small></div>
 <div><small>This animation will be released at a future date.</small></div>
-
-<span id="ie">
-    <form action="/upload" enctype="multipart/form-data" method="POST">
-        <input name="upload" id="fileLoad" type="file"/><br><br>
-        <input type="submit" value="Upload"/>
-    </form>
-</span>
 
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
