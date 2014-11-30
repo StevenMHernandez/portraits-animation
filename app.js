@@ -39,6 +39,45 @@ app.get('/uploaded', function (req, res) {
     res.sendfile(__dirname + '/views/uploaded.html');
 });
 
+app.get('/database', function (req, res) {
+    var test = '';
+    db.serialize(function () {
+        db.each("SELECT * FROM images", function (err, row) {
+            test = test + '<tr>' +
+            '<td><a href="' + row['uri'] + '">View image #' + row['id'] + '</a></td>' +
+            '<td><a target="_blank" href="http://freegeoip.net/xml/' + row['ip'] + '">' + row['ip'] + '</a></td>' +
+            '<td>' + row['timestamp'] + '</td>' +
+            '</tr>';
+        },function(){
+            res.send(
+                '<!DOCTYPE html>' +
+                '<html>' +
+                '<head>' +
+                '<title>Uploaded Images Database</title>' +
+                '<style>' +
+                '* {' +
+                'padding: 9px;' +
+                'box-sizing: border-box;' +
+                '}' +
+                'table {' +
+                'width: 100%;' +
+                'border-top: 1px solid black;' +
+                'border-left: 1px solid black;' +
+                'font-family: sans-serif' +
+                '}' +
+                'th, td {' +
+                'border-bottom: 1px solid black;' +
+                'border-right: 1px solid black;' +
+                '}' +
+                '</style>' +
+                '</head>' +
+                '<body><table>' +
+                '<tr><th>Images</th><th>User_IP</th><th>Timestamp</th></tr>' + test + '</table></body></html>'
+            )
+        });
+    });
+});
+
 app.post('/upload', function (req, res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
