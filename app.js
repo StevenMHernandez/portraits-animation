@@ -21,6 +21,9 @@ db.serialize(function () {
 
 var imageCounter;
 imageCounter = 0;
+db.each("SELECT * FROM images", function (err, row) {
+    imageCounter++;
+});
 
 server.listen(3003);
 var new_location = 'uploads/';
@@ -99,6 +102,7 @@ app.post('/upload', function (req, res) {
                     } else {
                         var max, min;
                         value.width > value.height ? (max = value.width, min = value.height) : (max = value.height, min = value.width);
+
                         gm(temp_path)
                             .crop(min, min, Math.round((value.width - min) / 2), Math.round((value.height - min) / 2))
                             .sample(999)
