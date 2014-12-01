@@ -44,7 +44,8 @@ app.get('/database', function (req, res) {
     db.serialize(function () {
         db.each("SELECT * FROM images", function (err, row) {
             test = test + '<tr>' +
-            '<td><a href="' + row['uri'] + '">View image #' + row['id'] + '</a></td>' +
+            '<td>' + row['id'] + '</td>' +
+            '<td><a href="' + row['uri'] + '"><img src="' + row['uri'] + '"/></a></td>' +
             '<td><a target="_blank" href="http://freegeoip.net/xml/' + row['ip'] + '">' + row['ip'] + '</a></td>' +
             '<td>' + row['timestamp'] + '</td>' +
             '</tr>';
@@ -69,10 +70,15 @@ app.get('/database', function (req, res) {
                 'border-bottom: 1px solid black;' +
                 'border-right: 1px solid black;' +
                 '}' +
+                'img{' +
+                'max-width:100%;' +
+                '}' +
                 '</style>' +
                 '</head>' +
                 '<body><table>' +
-                '<tr><th>Images</th><th>User_IP</th><th>Timestamp</th></tr>' + test + '</table></body></html>'
+                '<tr><th>id</th><th>Images</th><th>User_IP</th><th>Timestamp</th></tr>' +
+                '<tr>*any images not showing up have been removed.<br/>' +
+                'Add an underscore "_" to the filename to view them ex: "_14.jpg</tr>' + test + '</table></body></html>'
             )
         });
     });
