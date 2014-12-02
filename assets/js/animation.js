@@ -6,7 +6,7 @@ setInterval(function () {
     var img = $('img')[randomImage];
     var x = Math.random()*450;
     var width = Math.random() * (450 - x);
-    ctx.drawImage(img,x,0,width,450,x+(Math.random()*99)-45,0,width+(Math.random()*99)-45,450);
+    ctx.drawImage(img,x,0,width,450,x+(Math.random()*99),0,width+(Math.random()*99),450);
 }, 45);
 
 function getRandom() {

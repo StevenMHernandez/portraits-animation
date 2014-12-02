@@ -44,8 +44,36 @@ app.get('/uploaded', function (req, res) {
 });
 
 app.get('/map', function (req, res) {
-    res.sendfile(__dirname + '/views/uploaded.html');
+    //based on
+    res.sendfile(__dirname + '/views/map.html');
 });
+
+//app.get('/map_2', function (req, res) {
+//    var markers = '';
+//
+//    db.each("SELECT * FROM images", function (err, row) {
+//        if(row['ip'] != 'undefined'){
+//            var url = 'http://freegeoip.net/json/' + row['ip'];
+//            http.get(url, function(res) {
+//                body = '';
+//                res.on('data', function (chunk) {
+//                    body += chunk;
+//                });
+//                res.on('end', function() {
+//                    var location = JSON.parse(body);
+//                    var lat = location.latitude;
+//                    var lon = location.longitude;
+//                    markers += "['<a href=\"" + row['uri'] + "\">" + row['id'] + "</a>', " + lat + ", " + lon + ", 4],";
+//                    console.log('ttttiiii: ' + markers);
+//                });
+//            }).on('error', function(e) {
+//                console.log("Got error: ", e);
+//            });
+//        }
+//    },function() {
+//        res.send(markers);
+//    });
+//});
 
 app.get('/database', function (req, res) {
     var test = '';

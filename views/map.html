@@ -2,31 +2,109 @@
 <html>
 <head>
     <style type="text/css">
-        html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
-    </style>
-    <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARynSbArKFE_2nd4rvI0qrdEjCzkedFuI">
-    </script>
-    <script type="text/javascript">
-        function initialize() {
-            var mapOptions = {
-                center: { lat: -34.397, lng: 150.644},
-                zoom: 8
-            };
-            var map = new google.maps.Map(document.getElementById('map-canvas'),
-                    mapOptions);
-            var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                title:"Hello World!"
-            });
-            marker.setMap(map);
+        html, body, #map {
+            height: 100% !important;
+            width: 100% !important;
+            margin: 0;
+            padding: 0;
         }
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
+    </style>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Google Maps Multiple Markers</title>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"
+            type="text/javascript"></script>
 </head>
 <body>
-<div id="map-canvas"></div>
+<div id="map" style="width: 500px; height: 400px;"></div>
+
+<script type="text/javascript">
+    var locations = [
+        ['<a target="_blank" href="uploads/4.jpg">5</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/0.jpg">1</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/3.jpg">4</a>', 33.649, -117.919, 4],
+        ['<a target="_blank" href="uploads/1.jpg">2</a>', 37.581, -77.416, 4],
+        ['<a target="_blank" href="uploads/8.jpg">9</a>', 39.739, -104.985, 4],
+        ['<a target="_blank" href="uploads/9.jpg">10</a>', 39.284, -80.231, 4],
+        ['<a target="_blank" href="uploads/5.jpg">6</a>', 35.155, -119.061, 4],
+        ['<a target="_blank" href="uploads/6.jpg">7</a>', 38, -97, 4],
+        ['<a target="_blank" href="uploads/11.jpg">12</a>', 41.301, -72.388, 4],
+        ['<a target="_blank" href="uploads/7.jpg">8</a>', 29.74, -95.524, 4],
+        ['<a target="_blank" href="uploads/10.jpg">11</a>', 47.333, 13.333, 4],
+        ['<a target="_blank" href="uploads/13.jpg">14</a>', 29.93, -90.031, 4],
+        ['<a target="_blank" href="uploads/17.jpg">18</a>', 34.817, -86.683, 4],
+        ['<a target="_blank" href="uploads/18.jpg">19</a>', 38, -97, 4],
+        ['<a target="_blank" href="uploads/19.jpg">20</a>', 51.637, -0.399, 4],
+        ['<a target="_blank" href="uploads/14.jpg">15</a>', 18.421, -66.062, 4],
+        ['<a target="_blank" href="uploads/21.jpg">22</a>', 43.154, -93.201, 4],
+        ['<a target="_blank" href="uploads/20.jpg">21</a>', 46.111, -118.308, 4],
+        ['<a target="_blank" href="uploads/2.jpg">3</a>', 42.119, -71.104, 4],
+        ['<a target="_blank" href="uploads/23.jpg">24</a>', 51.5, -0.13, 4],
+        ['<a target="_blank" href="uploads/16.jpg">17</a>', 41.628, -72.373, 4],
+        ['<a target="_blank" href="uploads/25.jpg">26</a>', 47, 8, 4],
+        ['<a target="_blank" href="uploads/27.jpg">28</a>', 37.989, -84.478, 4],
+        ['<a target="_blank" href="uploads/28.jpg">29</a>', 38, -97, 4],
+        ['<a target="_blank" href="uploads/29.jpg">30</a>', 48.017, 114.667, 4],
+        ['<a target="_blank" href="uploads/22.jpg">23</a>', 38, -97, 4],
+        ['<a target="_blank" href="uploads/12.jpg">13</a>', 29.93, -90.031, 4],
+        ['<a target="_blank" href="uploads/31.jpg">32</a>', 33.711, -118.044, 4],
+        ['<a target="_blank" href="uploads/32.jpg">33</a>', 60.7, 10.35, 4],
+        ['<a target="_blank" href="uploads/30.jpg">31</a>', 40.202, -85.409, 4],
+        ['<a target="_blank" href="uploads/35.jpg">36</a>', 53.55, -113.5, 4],
+        ['<a target="_blank" href="uploads/24.jpg">25</a>', 48.997, 12.12, 4],
+        ['<a target="_blank" href="uploads/37.jpg">38</a>', 39.122, -76.995, 4],
+        ['<a target="_blank" href="uploads/40.jpg">41</a>', 43.039, -87.907, 4],
+        ['<a target="_blank" href="uploads/39.jpg">40</a>', 43.039, -87.907, 4],
+        ['<a target="_blank" href="uploads/42.jpg">43</a>', 37.79, -122.246, 4],
+        ['<a target="_blank" href="uploads/26.jpg">27</a>', 40.601, -73.94, 4],
+        ['<a target="_blank" href="uploads/44.jpg">45</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/45.jpg">46</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/41.jpg">42</a>', 41.682, -72.401, 4],
+        ['<a target="_blank" href="uploads/47.jpg">48</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/48.jpg">49</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/49.jpg">50</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/43.jpg">44</a>', 37.79, -122.246, 4],
+        ['<a target="_blank" href="uploads/51.jpg">52</a>', 27.9, -82.303, 4],
+        ['<a target="_blank" href="uploads/52.jpg">53</a>', 40, -4, 4],
+        ['<a target="_blank" href="uploads/46.jpg">47</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/38.jpg">39</a>', 60, -95, 4],
+        ['<a target="_blank" href="uploads/50.jpg">51</a>', 37.554, -77.461, 4],
+        ['<a target="_blank" href="uploads/33.jpg">34</a>', 35.222, -101.832, 4]
+    ];
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 2,
+        center: new google.maps.LatLng(0, 0),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    var infowindow = new google.maps.InfoWindow();
+
+    var marker, i;
+
+    for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations
+[i]
+[1], locations
+[i]
+[2]),
+            map: map,
+        });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                infowindow.setContent(locations
+[i]
+[0]);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+    }
+
+    $(document).ready(function () {
+//        $('#map').attr('width', )
+    });
+</script>
 </body>
 </html>
