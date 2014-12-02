@@ -22,6 +22,10 @@ db.serialize(function () {
 var imageCounter;
 imageCounter = 0;
 
+db.each("SELECT * FROM images", function (err, row) {
+    imageCounter++;
+});
+
 server.listen(3003);
 var new_location = 'uploads/';
 app.use('/assets', express.static(__dirname + '/assets'));
@@ -36,6 +40,10 @@ app.get('/animation', function (req, res) {
 });
 
 app.get('/uploaded', function (req, res) {
+    res.sendfile(__dirname + '/views/uploaded.html');
+});
+
+app.get('/map', function (req, res) {
     res.sendfile(__dirname + '/views/uploaded.html');
 });
 
