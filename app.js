@@ -25,7 +25,9 @@ imageCounter = 0;
 //TODO Remove after fixing my mistake from November 30
 db.each("SELECT * FROM images", function (err, row) {
     if(row['id'] >= 45 && row['id'] <= 51){
-        db.run("UPDATE images SET uri='" + row['id'] + ".jpg' WHERE Id=" + row['id'] + "");
+        image = row['id'] - 1;
+        uri = 'uploads/' + image;
+        db.run("UPDATE images SET uri='" + uri + ".jpg' WHERE Id=" + row['id'] + "");
     }
     imageCounter++;
 });
