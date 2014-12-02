@@ -22,16 +22,6 @@ db.serialize(function () {
 var imageCounter;
 imageCounter = 0;
 
-//TODO Remove after fixing my mistake from November 30
-db.each("SELECT * FROM images", function (err, row) {
-    if(row['id'] >= 45 && row['id'] <= 51){
-        image = row['id'] - 1;
-        uri = 'uploads/' + image;
-        db.run("UPDATE images SET uri='" + uri + ".jpg' WHERE Id=" + row['id'] + "");
-    }
-    imageCounter++;
-});
-
 server.listen(3003);
 var new_location = 'uploads/';
 app.use('/assets', express.static(__dirname + '/assets'));
@@ -142,52 +132,6 @@ app.post('/upload', function (req, res) {
         }
     });
 });
-
-//TODO Remove after fixing my mistake from November 30
-app.get('/my_mistakes', function(req, res){
-    res.send('<form action="/my_mistakes" enctype="multipart/form-data" method="POST">' +
-    '<input type="file" name="upload"/>' +
-    '<input type="submit"/>' +
-    '</form>');
-});
-
-//TODO Remove after fixing my mistake from November 30
-app.post('/my_mistakes', function (req, res) {
-    var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-        if (err) {
-            console.log('formParseError::' + err);
-        } else {
-            var temp_path = files['upload'].path;
-            var temp_name = files['upload'].name;
-            console.log(temp_name);
-                gm(temp_path).size(function (err, value) {
-                    if (err) {
-                        console.log('gm::' + err);
-                    } else {
-                        var max, min;
-                        value.width > value.height ? (max = value.width, min = value.height) : (max = value.height, min = value.width);
-
-                        gm(temp_path)
-                            .crop(min, min, Math.round((value.width - min) / 2), Math.round((value.height - min) / 2))
-                            .sample(999)
-                            .resize(450, 450)
-                            .setFormat("jpg")
-                            .write(new_location + temp_name, function (err) {
-                                if (err) {
-                                    console.error(err);
-                                } else {
-                                    res.redirect('/uploaded?img=' + temp_name);
-                                    //res.sendfile(new_location + temp_name);
-                                }
-                            }
-                        );
-                    }
-                });
-        }
-    });
-});
-
 
 var animation = io.of('/animation');
 io.on('connection', function (socket) {
